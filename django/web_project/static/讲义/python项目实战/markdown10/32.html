@@ -1,0 +1,617 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pygame 快速入门.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="pygame-快速入门">pygame 快速入门</h1>
+<h2 id="目标">目标</h2>
+<ol>
+<li>项目准备</li>
+<li>使用 <code>pygame</code> 创建图形窗口</li>
+<li>理解 <strong>图像</strong> 并实现图像绘制</li>
+<li>理解 <strong>游戏循环</strong> 和 <strong>游戏时钟</strong></li>
+<li>理解 <strong>精灵</strong> 和 <strong>精灵组</strong></li>
+</ol>
+<h2 id="项目准备">项目准备</h2>
+<ol>
+<li>新建 <strong>飞机大战</strong> 项目</li>
+<li>新建一个 <code>hm_01_pygame入门.py</code></li>
+<li>导入 <strong>游戏素材图片</strong></li>
+</ol>
+<p><strong>游戏的第一印象</strong></p>
+<ul>
+<li>把一些 <strong>静止的图像</strong> 绘制到 <strong>游戏窗口</strong> 中</li>
+<li>根据 <strong>用户的交互</strong> 或其他情况，<strong>移动</strong> 这些图像，产生动画效果</li>
+<li>根据 <strong>图像之间</strong> 是否发生重叠，判断 <strong>敌机是否被摧毁</strong> 等其他情况</li>
+</ul>
+<h2 id="使用-pygame-创建图形窗口">01. 使用 <code>pygame</code> 创建图形窗口</h2>
+<h3 id="小节目标">小节目标</h3>
+<ol>
+<li>游戏的初始化和退出</li>
+<li>理解游戏中的坐标系</li>
+<li>创建游戏主窗口</li>
+<li>简单的游戏循环</li>
+</ol>
+<blockquote>
+<p>可以将图片素材 <strong>绘制</strong> 到 <strong>游戏的窗口</strong> 上，开发游戏之前需要先知道 <strong>如何建立游戏窗口</strong>！</p>
+</blockquote>
+<h3 id="游戏的初始化和退出">1.1 游戏的初始化和退出</h3>
+<ul>
+<li>要使用 <code>pygame</code> 提供的所有功能之前，需要调用 <code>init</code> 方法</li>
+<li>在游戏结束前需要调用一下 <code>quit</code> 方法</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pygame.init()</code></td>
+<td>导入并初始化所有 <code>pygame</code> 模块，使用其他模块之前，必须先调用 <code>init</code> 方法</td>
+</tr>
+<tr>
+<td><code>pygame.quit()</code></td>
+<td>卸载所有 <code>pygame</code> 模块，在游戏结束之前调用！</td>
+</tr>
+</tbody>
+</table><p><img src="media/15025046487919/001_pygame%E7%9A%84init%E5%92%8Cquit.png" alt="001_pygame的init和quit-w254"></p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">import</span> pygame
+
+pygame<span class="token punctuation">.</span>init<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 游戏代码...</span>
+
+pygame<span class="token punctuation">.</span>quit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+<h3 id="理解游戏中的坐标系">1.2 理解游戏中的坐标系</h3>
+<ul>
+<li><strong>坐标系</strong>
+<ul>
+<li><strong>原点</strong> 在 <strong>左上角</strong> <code>(0, 0)</code></li>
+<li><strong>x 轴</strong> 水平方向向 <strong>右</strong>，逐渐增加</li>
+<li><strong>y 轴</strong> 垂直方向向 <strong>下</strong>，逐渐增加</li>
+</ul>
+</li>
+</ul>
+<p><img src="media/15025046487919/002_%E6%B8%B8%E6%88%8F%E7%AA%97%E5%8F%A3%E5%92%8C%E5%9D%90%E6%A0%87%E7%B3%BB.png" alt="002_游戏窗口和坐标系-w300"></p>
+<ul>
+<li>
+<p>在游戏中，<strong>所有可见的元素</strong> 都是以 <strong>矩形区域</strong> 来描述位置的</p>
+<ul>
+<li>要描述一个矩形区域有四个要素：<code>(x, y) (width, height)</code></li>
+</ul>
+</li>
+<li>
+<p><code>pygame</code> 专门提供了一个类 <code>pygame.Rect</code> 用于描述 <strong>矩形区域</strong></p>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python">Rect<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> width<span class="token punctuation">,</span> height<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Rect
+</code></pre>
+<p><img src="media/15025046487919/003_pygame.Rect.png" alt="003_pygame.Rect-w382"></p>
+<p><strong>提示</strong></p>
+<ul>
+<li><code>pygame.Rect</code> 是一个比较特殊的类，内部只是封装了一些数字计算</li>
+<li>不执行 <code>pygame.init()</code> 方法同样能够直接使用</li>
+</ul>
+<h4 id="案例演练">案例演练</h4>
+<p><strong>需求</strong></p>
+<ol>
+<li>定义 <code>hero_rect</code> 矩形描述 <strong>英雄的位置和大小</strong></li>
+<li>输出英雄的 <strong>坐标原点</strong>（<code>x</code> 和 <code>y</code>）</li>
+<li>输出英雄的 <strong>尺寸</strong>（<strong>宽度</strong> 和 <strong>高度</strong>）</li>
+</ol>
+<pre class=" language-python"><code class="prism  language-python">hero_rect <span class="token operator">=</span> pygame<span class="token punctuation">.</span>Rect<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">,</span> <span class="token number">120</span><span class="token punctuation">,</span> <span class="token number">126</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"坐标原点 %d %d"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>hero_rect<span class="token punctuation">.</span>x<span class="token punctuation">,</span> hero_rect<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"英雄大小 %d %d"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>hero_rect<span class="token punctuation">.</span>width<span class="token punctuation">,</span> hero_rect<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># size 属性会返回矩形区域的 (宽, 高) 元组</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"英雄大小 %d %d"</span> <span class="token operator">%</span> hero_rect<span class="token punctuation">.</span>size<span class="token punctuation">)</span>
+</code></pre>
+<h3 id="创建游戏主窗口">1.3 创建游戏主窗口</h3>
+<ul>
+<li><code>pygame</code> 专门提供了一个 <strong>模块</strong> <code>pygame.display</code> 用于创建、管理 <strong>游戏窗口</strong></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pygame.display.set_mode()</code></td>
+<td>初始化游戏显示窗口</td>
+</tr>
+<tr>
+<td><code>pygame.display.update()</code></td>
+<td>刷新屏幕内容显示，稍后使用</td>
+</tr>
+</tbody>
+</table><p><strong><code>set_mode</code> 方法</strong></p>
+<pre class=" language-python"><code class="prism  language-python">set_mode<span class="token punctuation">(</span>resolution<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> flags<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> depth<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Surface
+</code></pre>
+<ul>
+<li>
+<p><strong>作用</strong> —— 创建游戏显示窗口</p>
+</li>
+<li>
+<p><strong>参数</strong></p>
+<ul>
+<li><code>resolution</code> 指定屏幕的 <code>宽</code> 和 <code>高</code>，默认创建的窗口大小和屏幕大小一致</li>
+<li><code>flags</code> 参数指定屏幕的附加选项，例如是否全屏等等，默认不需要传递</li>
+<li><code>depth</code> 参数表示颜色的位数，默认自动匹配</li>
+</ul>
+</li>
+<li>
+<p><strong>返回值</strong></p>
+<ul>
+<li><strong>暂时</strong> 可以理解为 <strong>游戏的屏幕</strong>，<strong>游戏的元素</strong> 都需要被绘制到 <strong>游戏的屏幕</strong> 上</li>
+</ul>
+</li>
+<li>
+<p><strong>注意</strong>：必须使用变量记录 <code>set_mode</code> 方法的返回结果！因为：后续所有的图像绘制都基于这个返回结果</p>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 创建游戏主窗口</span>
+screen <span class="token operator">=</span> pygame<span class="token punctuation">.</span>display<span class="token punctuation">.</span>set_mode<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">480</span><span class="token punctuation">,</span> <span class="token number">700</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="简单的游戏循环">1.4 简单的游戏循环</h3>
+<ul>
+<li>为了做到游戏程序启动后，<strong>不会立即退出</strong>，通常会在游戏程序中增加一个 <strong>游戏循环</strong></li>
+<li>所谓 <strong>游戏循环</strong> 就是一个 <strong>无限循环</strong></li>
+<li>在 <strong>创建游戏窗口</strong> 代码下方，增加一个无限循环
+<ul>
+<li>注意：<strong>游戏窗口不需要重复创建</strong></li>
+</ul>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 创建游戏主窗口</span>
+screen <span class="token operator">=</span> pygame<span class="token punctuation">.</span>display<span class="token punctuation">.</span>set_mode<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">480</span><span class="token punctuation">,</span> <span class="token number">700</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 游戏循环</span>
+<span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+    <span class="token keyword">pass</span>
+</code></pre>
+<h2 id="理解-图像-并实现图像绘制">02. 理解 <strong>图像</strong> 并实现图像绘制</h2>
+<ul>
+<li>在游戏中，能够看到的 <strong>游戏元素</strong> 大多都是 <strong>图像</strong>
+<ul>
+<li><strong>图像文件</strong> 初始是保存在磁盘上的，如果需要使用，<strong>第一步</strong> 就需要 <strong>被加载到内存</strong></li>
+</ul>
+</li>
+<li>要在屏幕上 <strong>看到某一个图像的内容</strong>，需要按照三个步骤：
+<ol>
+<li>使用 <code>pygame.image.load()</code> <strong>加载图像的数据</strong></li>
+<li>使用 <strong>游戏屏幕</strong> 对象，调用 <code>blit</code> 方法 将图像绘制到指定位置</li>
+<li>调用 <code>pygame.display.update()</code> 方法更新整个屏幕的显示</li>
+</ol>
+</li>
+</ul>
+<p><img src="media/15025046487919/004_%E5%8A%A0%E8%BD%BD%E5%92%8C%E6%98%BE%E7%A4%BA%E5%9B%BE%E5%83%8F.png" alt="004_加载和显示图像-w841"></p>
+<blockquote>
+<p>提示：要想在屏幕上看到绘制的结果，就一定要调用 <code>pygame.display.update()</code> 方法</p>
+</blockquote>
+<h3 id="代码演练-i-——-绘制背景图像">代码演练 I —— 绘制背景图像</h3>
+<p><strong>需求</strong></p>
+<ol>
+<li>加载 <code>background.png</code> 创建背景</li>
+<li>将 <strong>背景</strong> 绘制在屏幕的 <code>(0, 0)</code> 位置</li>
+<li>调用屏幕更新显示背景图像</li>
+</ol>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 绘制背景图像</span>
+<span class="token comment"># 1&gt; 加载图像</span>
+bg <span class="token operator">=</span> pygame<span class="token punctuation">.</span>image<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"./images/background.png"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 2&gt; 绘制在屏幕</span>
+screen<span class="token punctuation">.</span>blit<span class="token punctuation">(</span>bg<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 3&gt; 更新显示</span>
+pygame<span class="token punctuation">.</span>display<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="代码演练-ii-——-绘制英雄图像">代码演练 II —— 绘制英雄图像</h3>
+<p><strong>需求</strong></p>
+<ol>
+<li>加载 <code>me1.png</code> 创建英雄飞机</li>
+<li>将 <strong>英雄飞机</strong> 绘制在屏幕的 <code>(200, 500)</code> 位置</li>
+<li>调用屏幕更新显示飞机图像</li>
+</ol>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 1&gt; 加载图像</span>
+hero <span class="token operator">=</span> pygame<span class="token punctuation">.</span>image<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"./images/me1.png"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 2&gt; 绘制在屏幕</span>
+screen<span class="token punctuation">.</span>blit<span class="token punctuation">(</span>hero<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 3&gt; 更新显示</span>
+pygame<span class="token punctuation">.</span>display<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>透明图像</strong></p>
+<ul>
+<li><code>png</code> 格式的图像是支持 <strong>透明</strong> 的</li>
+<li>在绘制图像时，<strong>透明区域</strong> 不会显示任何内容</li>
+<li>但是如果<strong>下方已经有内容</strong>，会 <strong>透过</strong> <strong>透明区域</strong> 显示出来</li>
+</ul>
+<h3 id="理解-update-方法的作用">理解 <code>update()</code> 方法的作用</h3>
+<blockquote>
+<p>可以在 <code>screen</code> 对象完成 <strong>所有</strong> <code>blit</code> 方法之后，<strong>统一调用一次</strong> <code>display.update</code> 方法，同样可以在屏幕上 <strong>看到最终的绘制结果</strong></p>
+</blockquote>
+<ul>
+<li>使用 <code>display.set_mode()</code> 创建的 <code>screen</code> <strong>对象</strong> 是一个 <strong>内存中的屏幕数据对象</strong>
+<ul>
+<li>可以理解成是 <strong>油画</strong> 的 <strong>画布</strong></li>
+</ul>
+</li>
+<li><code>screen.blit</code> 方法可以在 <strong>画布</strong> 上绘制很多 <strong>图像</strong>
+<ul>
+<li>例如：<strong>英雄</strong>、<strong>敌机</strong>、<strong>子弹</strong>…</li>
+<li><strong>这些图像</strong> 有可能 会彼此 <strong>重叠或者覆盖</strong></li>
+</ul>
+</li>
+<li><code>display.update()</code> 会将 <strong>画布</strong> 的 <strong>最终结果</strong> 绘制在屏幕上，这样可以 <strong>提高屏幕绘制效率</strong>，<strong>增加游戏的流畅度</strong></li>
+</ul>
+<p><strong>案例调整</strong></p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 绘制背景图像</span>
+<span class="token comment"># 1&gt; 加载图像</span>
+bg <span class="token operator">=</span> pygame<span class="token punctuation">.</span>image<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"./images/background.png"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 2&gt; 绘制在屏幕</span>
+screen<span class="token punctuation">.</span>blit<span class="token punctuation">(</span>bg<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 绘制英雄图像</span>
+<span class="token comment"># 1&gt; 加载图像</span>
+hero <span class="token operator">=</span> pygame<span class="token punctuation">.</span>image<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"./images/me1.png"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 2&gt; 绘制在屏幕</span>
+screen<span class="token punctuation">.</span>blit<span class="token punctuation">(</span>hero<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 3&gt; 更新显示 - update 方法会把之前所有绘制的结果，一次性更新到屏幕窗口上</span>
+pygame<span class="token punctuation">.</span>display<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="理解-游戏循环-和-游戏时钟">03. 理解 <strong>游戏循环</strong> 和 <strong>游戏时钟</strong></h2>
+<blockquote>
+<p>现在 <strong>英雄飞机</strong> 已经被绘制到屏幕上了，<strong>怎么能够让飞机移动呢</strong> ？</p>
+</blockquote>
+<h3 id="游戏中的动画实现原理">3.1 游戏中的动画实现原理</h3>
+<ul>
+<li>跟 <strong>电影</strong> 的原理类似，游戏中的动画效果，本质上是 <strong>快速</strong> 的在屏幕上绘制 <strong>图像</strong>
+<ul>
+<li>电影是将多张 <strong>静止的电影胶片</strong> <strong>连续、快速</strong>的播放，产生连贯的视觉效果！</li>
+</ul>
+</li>
+<li>一般在电脑上 <strong>每秒绘制 60 次</strong>，就能够达到非常 <strong>连续</strong> <strong>高品质</strong> 的动画效果
+<ul>
+<li>每次绘制的结果被称为 <strong>帧 Frame</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="media/15025046487919/%E6%89%8B%E7%BF%BB%E4%B9%A6%E5%8A%A8%E7%94%BB.gif" alt="手翻书动画"><br>
+<img src="media/15025046487919/%E7%8C%AB%E6%83%8A%E8%AE%B6.gif" alt="猫惊讶"></p>
+<h3 id="游戏循环">3.2 <strong>游戏循环</strong></h3>
+<h4 id="游戏的两个组成部分">游戏的两个组成部分</h4>
+<blockquote>
+<p><strong>游戏循环的开始</strong> 就意味着 <strong>游戏的正式开始</strong></p>
+</blockquote>
+<p><img src="media/15025046487919/005_%E6%B8%B8%E6%88%8F%E4%B8%BB%E6%A8%A1%E5%9D%97.png" alt="005_游戏主模块-w600"></p>
+<h4 id="游戏循环的作用">游戏循环的作用</h4>
+<ol>
+<li>保证游戏 <strong>不会直接退出</strong></li>
+<li><strong>变化图像位置</strong> —— 动画效果
+<ul>
+<li>每隔 <code>1 / 60 秒</code> 移动一下所有图像的位置</li>
+<li>调用 <code>pygame.display.update()</code> 更新屏幕显示</li>
+</ul>
+</li>
+<li><strong>检测用户交互</strong> —— 按键、鼠标等…</li>
+</ol>
+<h3 id="游戏时钟">3.3 游戏时钟</h3>
+<ul>
+<li><code>pygame</code> 专门提供了一个类 <code>pygame.time.Clock</code> 可以非常方便的设置屏幕绘制速度 —— <strong>刷新帧率</strong></li>
+<li>要使用 <strong>时钟对象</strong> 需要两步：
+<ul>
+<li>1）在 <strong>游戏初始化</strong> 创建一个 <strong>时钟对象</strong></li>
+<li>2）在 <strong>游戏循环</strong> 中让时钟对象调用 <code>tick(帧率)</code> 方法</li>
+</ul>
+</li>
+<li><code>tick</code> 方法会根据 <strong>上次被调用的时间</strong>，自动设置 <strong>游戏循环</strong> 中的延时</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 3. 创建游戏时钟对象</span>
+clock <span class="token operator">=</span> pygame<span class="token punctuation">.</span>time<span class="token punctuation">.</span>Clock<span class="token punctuation">(</span><span class="token punctuation">)</span>
+i <span class="token operator">=</span> <span class="token number">0</span>
+
+<span class="token comment"># 游戏循环</span>
+<span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+
+    <span class="token comment"># 设置屏幕刷新帧率</span>
+    clock<span class="token punctuation">.</span>tick<span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    i <span class="token operator">+=</span> <span class="token number">1</span>
+</code></pre>
+<h3 id="英雄的简单动画实现">3.4 英雄的简单动画实现</h3>
+<p><strong>需求</strong></p>
+<ol>
+<li>在 <strong>游戏初始化</strong> 定义一个 <code>pygame.Rect</code> 的变量记录英雄的初始位置</li>
+<li>在 <strong>游戏循环</strong> 中每次让 <strong>英雄</strong> 的 <code>y - 1</code> —— 向上移动</li>
+<li><code>y &lt;= 0</code> 将英雄移动到屏幕的底部</li>
+</ol>
+<blockquote>
+<p>提示：</p>
+<ul>
+<li>每一次调用 <code>update()</code> 方法之前，需要把 <strong>所有的游戏图像都重新绘制一遍</strong></li>
+<li>而且应该 <strong>最先</strong> 重新绘制 <strong>背景图像</strong></li>
+</ul>
+</blockquote>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 4. 定义英雄的初始位置</span>
+hero_rect <span class="token operator">=</span> pygame<span class="token punctuation">.</span>Rect<span class="token punctuation">(</span><span class="token number">150</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">,</span> <span class="token number">102</span><span class="token punctuation">,</span> <span class="token number">126</span><span class="token punctuation">)</span>
+
+<span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+
+    <span class="token comment"># 可以指定循环体内部的代码执行的频率</span>
+    clock<span class="token punctuation">.</span>tick<span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># 更新英雄位置</span>
+    hero_rect<span class="token punctuation">.</span>y <span class="token operator">-=</span> <span class="token number">1</span>
+
+    <span class="token comment"># 如果移出屏幕，则将英雄的顶部移动到屏幕底部</span>
+    <span class="token keyword">if</span> hero_rect<span class="token punctuation">.</span>y <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        hero_rect<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">700</span>
+
+    <span class="token comment"># 绘制背景图片</span>
+    screen<span class="token punctuation">.</span>blit<span class="token punctuation">(</span>bg<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment"># 绘制英雄图像</span>
+    screen<span class="token punctuation">.</span>blit<span class="token punctuation">(</span>hero<span class="token punctuation">,</span> hero_rect<span class="token punctuation">)</span>
+
+    <span class="token comment"># 更新显示</span>
+    pygame<span class="token punctuation">.</span>display<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h4 id="作业">作业</h4>
+<ol>
+<li>英雄向上飞行，当 <strong>英雄完全从上方飞出屏幕后</strong></li>
+<li>将飞机移动到屏幕的底部</li>
+</ol>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">if</span> hero_rect<span class="token punctuation">.</span>y <span class="token operator">+</span> hero_rect<span class="token punctuation">.</span>height <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+    hero_rect<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">700</span>
+</code></pre>
+<p><strong>提示</strong></p>
+<ul>
+<li><code>Rect</code> 的属性 <code>bottom = y + height</code></li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">if</span> hero_rect<span class="token punctuation">.</span>bottom <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+    hero_rect<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">700</span>
+</code></pre>
+<h3 id="在游戏循环中-监听-事件">3.5 在游戏循环中 监听 事件</h3>
+<h4 id="事件-event">事件 <code>event</code></h4>
+<ul>
+<li>就是游戏启动后，<strong>用户针对游戏所做的操作</strong></li>
+<li>例如：<strong>点击关闭按钮</strong>，<strong>点击鼠标</strong>，<strong>按下键盘</strong>…</li>
+</ul>
+<h4 id="监听">监听</h4>
+<ul>
+<li>在 <strong>游戏循环</strong> 中，判断用户 <strong>具体的操作</strong></li>
+</ul>
+<blockquote>
+<p>只有 <strong>捕获</strong> 到用户具体的操作，才能有针对性的做出响应</p>
+</blockquote>
+<h4 id="代码实现">代码实现</h4>
+<ul>
+<li><code>pygame</code> 中通过 <code>pygame.event.get()</code> 可以获得 <strong>用户当前所做动作</strong> 的 <strong>事件列表</strong>
+<ul>
+<li>用户可以同一时间做很多事情</li>
+</ul>
+</li>
+<li>提示：<strong>这段代码非常的固定</strong>，几乎所有的 <code>pygame</code> 游戏都 <strong>大同小异</strong>！</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 游戏循环</span>
+<span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+
+    <span class="token comment"># 设置屏幕刷新帧率</span>
+    clock<span class="token punctuation">.</span>tick<span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># 事件监听</span>
+    <span class="token keyword">for</span> event <span class="token keyword">in</span> pygame<span class="token punctuation">.</span>event<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+        <span class="token comment"># 判断用户是否点击了关闭按钮</span>
+        <span class="token keyword">if</span> event<span class="token punctuation">.</span><span class="token builtin">type</span> <span class="token operator">==</span> pygame<span class="token punctuation">.</span>QUIT<span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"退出游戏..."</span><span class="token punctuation">)</span>
+
+            pygame<span class="token punctuation">.</span>quit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+            <span class="token comment"># 直接退出系统</span>
+            exit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="理解-精灵-和-精灵组">04. 理解 <strong>精灵</strong> 和 <strong>精灵组</strong></h2>
+<h3 id="精灵-和-精灵组">4.1 精灵 和 精灵组</h3>
+<ul>
+<li>在刚刚完成的案例中，<strong>图像加载</strong>、<strong>位置变化</strong>、<strong>绘制图像</strong> 都需要程序员编写代码分别处理</li>
+<li>为了简化开发步骤，<code>pygame</code> 提供了两个类
+<ul>
+<li><code>pygame.sprite.Sprite</code> —— 存储 <strong>图像数据 image</strong> 和 <strong>位置 rect</strong> 的 <strong>对象</strong></li>
+<li><code>pygame.sprite.Group</code></li>
+</ul>
+</li>
+</ul>
+<p><img src="media/15025046487919/006_pygame.Sprite.png" alt="006_pygame.Sprite"></p>
+<h4 id="精灵">精灵</h4>
+<ul>
+<li>
+<p>在游戏开发中，通常把 <strong>显示图像的对象</strong> 叫做精灵 <code>Sprite</code></p>
+</li>
+<li>
+<p><strong>精灵</strong> 需要 有 <strong>两个重要的属性</strong></p>
+<ul>
+<li><code>image</code> 要显示的图像</li>
+<li><code>rect</code> 图像要显示在屏幕的位置</li>
+</ul>
+</li>
+<li>
+<p>默认的 <code>update()</code> 方法什么事情也没做</p>
+<ul>
+<li>子类可以重写此方法，在每次刷新屏幕时，更新精灵位置</li>
+</ul>
+</li>
+<li>
+<p><strong>注意</strong>：<code>pygame.sprite.Sprite</code> 并没有提供 <code>image</code> 和 <code>rect</code> 两个属性</p>
+<ul>
+<li>需要程序员从 <code>pygame.sprite.Sprite</code> 派生子类</li>
+<li>并在 <strong>子类</strong> 的 <strong>初始化方法</strong> 中，设置 <code>image</code> 和 <code>rect</code> 属性</li>
+</ul>
+</li>
+</ul>
+<h4 id="精灵组">精灵组</h4>
+<ul>
+<li>一个 <strong>精灵组</strong> 可以包含多个 <strong>精灵</strong> 对象</li>
+<li>调用 <strong>精灵组</strong> 对象的 <code>update()</code> 方法
+<ul>
+<li>可以 <strong>自动</strong> 调用 <strong>组内每一个精灵</strong> 的 <code>update()</code> 方法</li>
+</ul>
+</li>
+<li>调用 <strong>精灵组</strong> 对象的 <code>draw(屏幕对象)</code> 方法
+<ul>
+<li>可以将 <strong>组内每一个精灵</strong> 的 <code>image</code> 绘制在 <code>rect</code> 位置</li>
+</ul>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python">Group<span class="token punctuation">(</span><span class="token operator">*</span>sprites<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Group
+</code></pre>
+<blockquote>
+<p>注意：仍然需要调用 <code>pygame.display.update()</code> 才能在屏幕看到最终结果</p>
+</blockquote>
+<h3 id="派生精灵子类">4.2 派生精灵子类</h3>
+<ol>
+<li>新建 <code>plane_sprites.py</code> 文件</li>
+<li>定义 <code>GameSprite</code> 继承自 <code>pygame.sprite.Sprite</code></li>
+</ol>
+<p><strong>注意</strong></p>
+<ul>
+<li>如果一个类的 <strong>父类</strong> 不是 <code>object</code></li>
+<li>在重写 <strong>初始化方法</strong> 时，<strong>一定要</strong> 先 <code>super()</code> 一下父类的 <code>__init__</code> 方法</li>
+<li><strong>保证父类中实现的 <code>__init__</code> 代码能够被正常执行</strong></li>
+</ul>
+<p><img src="media/15025046487919/007_GameSprite.png" alt="007_GameSprite-w398"></p>
+<p><strong>属性</strong></p>
+<ul>
+<li><code>image</code> 精灵图像，使用 <code>image_name</code> 加载</li>
+<li><code>rect</code> 精灵大小，默认使用图像大小</li>
+<li><code>speed</code> 精灵移动速度，默认为 <code>1</code></li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li><code>update</code> 每次更新屏幕时在游戏循环内调用
+<ul>
+<li>让精灵的 <code>self.rect.y += self.speed</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>提示</strong></p>
+<ul>
+<li><code>image</code> 的 <code>get_rect()</code> 方法，可以返回 <strong>pygame.Rect(0, 0, 图像宽, 图像高)</strong> 的对象</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">import</span> pygame
+
+
+<span class="token keyword">class</span> <span class="token class-name">GameSprite</span><span class="token punctuation">(</span>pygame<span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>Sprite<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""游戏精灵基类"""</span>
+    
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> image_name<span class="token punctuation">,</span> speed<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        
+        <span class="token comment"># 调用父类的初始化方法</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 加载图像</span>
+        self<span class="token punctuation">.</span>image <span class="token operator">=</span> pygame<span class="token punctuation">.</span>image<span class="token punctuation">.</span>load<span class="token punctuation">(</span>image_name<span class="token punctuation">)</span>
+        <span class="token comment"># 设置尺寸</span>
+        self<span class="token punctuation">.</span>rect <span class="token operator">=</span> self<span class="token punctuation">.</span>image<span class="token punctuation">.</span>get_rect<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment"># 记录速度</span>
+        self<span class="token punctuation">.</span>speed <span class="token operator">=</span> speed
+
+    <span class="token keyword">def</span> <span class="token function">update</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> <span class="token operator">*</span>args<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        
+        <span class="token comment"># 默认在垂直方向移动</span>
+        self<span class="token punctuation">.</span>rect<span class="token punctuation">.</span>y <span class="token operator">+=</span> self<span class="token punctuation">.</span>speed
+        
+</code></pre>
+<h3 id="使用-游戏精灵-和-精灵组-创建敌机">4.3 使用 游戏精灵 和 精灵组 创建敌机</h3>
+<p><strong>需求</strong></p>
+<ul>
+<li>使用刚刚派生的 <strong>游戏精灵</strong> 和 <strong>精灵组</strong> 创建 敌机 并且实现敌机动画</li>
+</ul>
+<p><strong>步骤</strong></p>
+<ol>
+<li>使用 <code>from</code> 导入 <code>plane_sprites</code> 模块
+<ul>
+<li><code>from</code> 导入的模块可以 <strong>直接使用</strong></li>
+<li><code>import</code> 导入的模块需要通过 <strong>模块名.</strong> 来使用</li>
+</ul>
+</li>
+<li>在 <strong>游戏初始化</strong> 创建 <strong>精灵对象</strong> 和 <strong>精灵组对象</strong></li>
+<li>在 <strong>游戏循环中</strong> 让 <strong>精灵组</strong> 分别调用 <code>update()</code> 和 <code>draw(screen)</code> 方法</li>
+</ol>
+<p><strong>职责</strong></p>
+<ul>
+<li>精灵
+<ul>
+<li>封装 <strong>图像 image</strong>、<strong>位置 rect</strong> 和 <strong>速度 speed</strong></li>
+<li>提供 <code>update()</code> 方法，根据游戏需求，<strong>更新位置 rect</strong></li>
+</ul>
+</li>
+<li>精灵组
+<ul>
+<li>包含 <strong>多个</strong> <strong>精灵对象</strong></li>
+<li><code>update</code> 方法，让精灵组中的所有精灵调用 <code>update</code> 方法更新位置</li>
+<li><code>draw(screen)</code> 方法，在 <code>screen</code> 上绘制精灵组中的所有精灵</li>
+</ul>
+</li>
+</ul>
+<h4 id="实现步骤">实现步骤</h4>
+<ul>
+<li>
+<ol>
+<li>导入 <code>plane_sprites</code> 模块</li>
+</ol>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> plane_sprites <span class="token keyword">import</span> <span class="token operator">*</span>
+</code></pre>
+<ul>
+<li>
+<ol start="2">
+<li>修改初始化部分代码</li>
+</ol>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 创建敌机精灵和精灵组</span>
+enemy1 <span class="token operator">=</span> GameSprite<span class="token punctuation">(</span><span class="token string">"./images/enemy1.png"</span><span class="token punctuation">)</span>
+enemy2 <span class="token operator">=</span> GameSprite<span class="token punctuation">(</span><span class="token string">"./images/enemy1.png"</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+enemy2<span class="token punctuation">.</span>rect<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">200</span>
+enemy_group <span class="token operator">=</span> pygame<span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>Group<span class="token punctuation">(</span>enemy1<span class="token punctuation">,</span> enemy2<span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li>
+<ol start="3">
+<li>修改游戏循环部分代码</li>
+</ol>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 让敌机组调用 update 和 draw 方法</span>
+enemy_group<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">)</span>
+enemy_group<span class="token punctuation">.</span>draw<span class="token punctuation">(</span>screen<span class="token punctuation">)</span>
+
+<span class="token comment"># 更新屏幕显示</span>
+pygame<span class="token punctuation">.</span>display<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,370 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>函数基础.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="函数基础">函数基础</h1>
+<h2 id="目标">目标</h2>
+<ul>
+<li>函数的快速体验</li>
+<li>函数的基本使用</li>
+<li>函数的参数</li>
+<li>函数的返回值</li>
+<li>函数的嵌套调用</li>
+<li>在模块中定义函数</li>
+</ul>
+<h2 id="函数的快速体验">01. 函数的快速体验</h2>
+<h3 id="快速体验">1.1 快速体验</h3>
+<ul>
+<li>所谓<strong>函数</strong>，就是把 <strong>具有独立功能的代码块</strong> 组织为一个小模块，在需要的时候 <strong>调用</strong></li>
+<li>函数的使用包含两个步骤：
+<ol>
+<li>定义函数 —— <strong>封装</strong> 独立的功能</li>
+<li>调用函数 —— 享受 <strong>封装</strong> 的成果</li>
+</ol>
+</li>
+<li><strong>函数的作用</strong>，在开发程序时，使用函数可以提高编写的效率以及代码的 <strong>重用</strong></li>
+</ul>
+<p><strong>演练步骤</strong></p>
+<ol>
+<li>新建 <code>04_函数</code> 项目</li>
+<li>复制之前完成的 <strong>乘法表</strong> 文件</li>
+<li>修改文件，增加函数定义 <code>multiple_table():</code></li>
+<li>新建另外一个文件，使用 <code>import</code> 导入并且调用函数</li>
+</ol>
+<h2 id="函数基本使用">02. 函数基本使用</h2>
+<h3 id="函数的定义">2.1 函数的定义</h3>
+<p>定义函数的格式如下：</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> 函数名<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    函数封装的代码
+    ……
+</code></pre>
+<ol>
+<li><code>def</code> 是英文 <code>define</code> 的缩写</li>
+<li><strong>函数名称</strong> 应该能够表达 <strong>函数封装代码</strong> 的功能，方便后续的调用</li>
+<li><strong>函数名称</strong> 的命名应该 <strong>符合</strong> <strong>标识符的命名规则</strong>
+<ul>
+<li>可以由 <strong>字母</strong>、<strong>下划线</strong> 和 <strong>数字</strong> 组成</li>
+<li><strong>不能以数字开头</strong></li>
+<li><strong>不能与关键字重名</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="函数调用">2.2 函数调用</h3>
+<p>调用函数很简单的，通过 <code>函数名()</code> 即可完成对函数的调用</p>
+<h3 id="第一个函数演练">2.3 第一个函数演练</h3>
+<p><strong>需求</strong></p>
+<ul>
+<li>
+<ol>
+<li>编写一个打招呼 <code>say_hello</code> 的函数，封装三行打招呼的代码</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>在函数下方调用打招呼的代码</li>
+</ol>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python">name <span class="token operator">=</span> <span class="token string">"小明"</span>
+
+
+<span class="token comment"># 解释器知道这里定义了一个函数</span>
+<span class="token keyword">def</span> <span class="token function">say_hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"hello 1"</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"hello 2"</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"hello 3"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+<span class="token comment"># 只有在调用函数时，之前定义的函数才会被执行</span>
+<span class="token comment"># 函数执行完成之后，会重新回到之前的程序中，继续执行后续的代码</span>
+say_hello<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+
+</code></pre>
+<blockquote>
+<p>用 <strong>单步执行 F8 和 F7</strong> 观察以下代码的执行过程</p>
+</blockquote>
+<ul>
+<li>定义好函数之后，只表示这个函数封装了一段代码而已</li>
+<li>如果不主动调用函数，函数是不会主动执行的</li>
+</ul>
+<h4 id="思考">思考</h4>
+<ul>
+<li>
+<p>能否将 <strong>函数调用</strong> 放在 <strong>函数定义</strong> 的上方？</p>
+<ul>
+<li>不能！</li>
+<li>因为在 <strong>使用函数名</strong> 调用函数之前，必须要保证 <code>Python</code> 已经知道函数的存在</li>
+<li>否则控制台会提示 <code>NameError: name 'say_hello' is not defined</code> (<strong>名称错误：say_hello 这个名字没有被定义</strong>)</li>
+</ul>
+</li>
+</ul>
+<h3 id="pycharm-的调试工具">2.4 PyCharm 的调试工具</h3>
+<ul>
+<li><strong>F8 Step Over</strong> 可以单步执行代码，会把函数调用看作是一行代码直接执行</li>
+<li><strong>F7 Step Into</strong> 可以单步执行代码，如果是函数，会进入函数内部</li>
+</ul>
+<h3 id="函数的文档注释">2.5 函数的文档注释</h3>
+<ul>
+<li>在开发中，如果希望给函数添加注释，应该在 <strong>定义函数</strong> 的下方，使用 <strong>连续的三对引号</strong></li>
+<li>在 <strong>连续的三对引号</strong> 之间编写对函数的说明文字</li>
+<li>在 <strong>函数调用</strong> 位置，使用快捷键 <code>CTRL + Q</code> 可以查看函数的说明信息</li>
+</ul>
+<blockquote>
+<p>注意：因为 <strong>函数体相对比较独立</strong>，<strong>函数定义的上方</strong>，应该和其他代码（包括注释）保留 <strong>两个空行</strong></p>
+</blockquote>
+<h2 id="函数的参数">03. 函数的参数</h2>
+<p><strong>演练需求</strong></p>
+<ol>
+<li>开发一个 <code>sum_2_num</code> 的函数</li>
+<li>函数能够实现 <strong>两个数字的求和</strong> 功能</li>
+</ol>
+<p>演练代码如下：</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">sum_2_num</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    num1 <span class="token operator">=</span> <span class="token number">10</span>
+    num2 <span class="token operator">=</span> <span class="token number">20</span>
+    result <span class="token operator">=</span> num1 <span class="token operator">+</span> num2
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"%d + %d = %d"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+sum_2_num<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+<p><strong>思考一下存在什么问题</strong></p>
+<blockquote>
+<p>函数只能处理 <strong>固定数值</strong> 的相加</p>
+</blockquote>
+<p><strong>如何解决？</strong></p>
+<ul>
+<li>如果能够把需要计算的数字，在调用函数时，传递到函数内部就好了！</li>
+</ul>
+<h3 id="函数参数的使用">3.1 函数参数的使用</h3>
+<ul>
+<li>在函数名的后面的小括号内部填写 <strong>参数</strong></li>
+<li>多个参数之间使用 <code>,</code> 分隔</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">sum_2_num</span><span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    result <span class="token operator">=</span> num1 <span class="token operator">+</span> num2
+    
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"%d + %d = %d"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+sum_2_num<span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span>
+
+</code></pre>
+<h3 id="参数的作用">3.2 参数的作用</h3>
+<ul>
+<li><strong>函数</strong>，把 <strong>具有独立功能的代码块</strong> 组织为一个小模块，在需要的时候 <strong>调用</strong></li>
+<li><strong>函数的参数</strong>，增加函数的 <strong>通用性</strong>，针对 <strong>相同的数据处理逻辑</strong>，能够 <strong>适应更多的数据</strong>
+<ol>
+<li>在函数 <strong>内部</strong>，把参数当做 <strong>变量</strong> 使用，进行需要的数据处理</li>
+<li>函数调用时，按照函数定义的<strong>参数顺序</strong>，把 <strong>希望在函数内部处理的数据</strong>，<strong>通过参数</strong> 传递</li>
+</ol>
+</li>
+</ul>
+<h3 id="形参和实参">3.3 形参和实参</h3>
+<ul>
+<li><strong>形参</strong>：<strong>定义</strong> 函数时，小括号中的参数，是用来接收参数用的，在函数内部 <strong>作为变量使用</strong></li>
+<li><strong>实参</strong>：<strong>调用</strong> 函数时，小括号中的参数，是用来把数据传递到 <strong>函数内部</strong> 用的</li>
+</ul>
+<h2 id="函数的返回值">04. 函数的返回值</h2>
+<ul>
+<li>在程序开发中，有时候，会希望 <strong>一个函数执行结束后，告诉调用者一个结果</strong>，以便调用者针对具体的结果做后续的处理</li>
+<li><strong>返回值</strong> 是函数 <strong>完成工作</strong>后，<strong>最后</strong> 给调用者的 <strong>一个结果</strong></li>
+<li>在函数中使用 <code>return</code> 关键字可以返回结果</li>
+<li>调用函数一方，可以 <strong>使用变量</strong> 来 <strong>接收</strong> 函数的返回结果</li>
+</ul>
+<blockquote>
+<p>注意：<code>return</code> 表示返回，后续的代码都不会被执行</p>
+</blockquote>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">sum_2_num</span><span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""对两个数字的求和"""</span>
+
+    <span class="token keyword">return</span> num1 <span class="token operator">+</span> num2
+
+<span class="token comment"># 调用函数，并使用 result 变量接收计算结果</span>
+result <span class="token operator">=</span> sum_2_num<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"计算结果是 %d"</span> <span class="token operator">%</span> result<span class="token punctuation">)</span>
+
+</code></pre>
+<h2 id="函数的嵌套调用">05. 函数的嵌套调用</h2>
+<ul>
+<li>一个函数里面 <strong>又调用</strong> 了 <strong>另外一个函数</strong>，这就是 <strong>函数嵌套调用</strong></li>
+<li>如果函数 <code>test2</code> 中，调用了另外一个函数 <code>test1</code>
+<ul>
+<li>那么执行到调用 <code>test1</code> 函数时，会先把函数 <code>test1</code> 中的任务都执行完</li>
+<li>才会回到 <code>test2</code> 中调用函数 <code>test1</code> 的位置，继续执行后续的代码</li>
+</ul>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"*"</span> <span class="token operator">*</span> <span class="token number">50</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"test 1"</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"*"</span> <span class="token operator">*</span> <span class="token number">50</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"-"</span> <span class="token operator">*</span> <span class="token number">50</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"test 2"</span><span class="token punctuation">)</span>
+    
+    test1<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"-"</span> <span class="token operator">*</span> <span class="token number">50</span><span class="token punctuation">)</span>
+
+test2<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+<h3 id="函数嵌套的演练-——-打印分隔线">函数嵌套的演练 —— 打印分隔线</h3>
+<blockquote>
+<p>体会一下工作中 <strong>需求是多变</strong> 的</p>
+</blockquote>
+<p><strong>需求 1</strong></p>
+<ul>
+<li>定义一个 <code>print_line</code> 函数能够打印 <code>*</code> 组成的 <strong>一条分隔线</strong></li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">print_line</span><span class="token punctuation">(</span>char<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"*"</span> <span class="token operator">*</span> <span class="token number">50</span><span class="token punctuation">)</span>
+
+</code></pre>
+<p><strong>需求 2</strong></p>
+<ul>
+<li>定义一个函数能够打印 <strong>由任意字符组成</strong> 的分隔线</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">print_line</span><span class="token punctuation">(</span>char<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span>char <span class="token operator">*</span> <span class="token number">50</span><span class="token punctuation">)</span>
+    
+</code></pre>
+<p><strong>需求 3</strong></p>
+<ul>
+<li>定义一个函数能够打印 <strong>任意重复次数</strong> 的分隔线</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">print_line</span><span class="token punctuation">(</span>char<span class="token punctuation">,</span> times<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span>char <span class="token operator">*</span> times<span class="token punctuation">)</span>
+
+</code></pre>
+<p><strong>需求 4</strong></p>
+<ul>
+<li>定义一个函数能够打印 <strong>5 行</strong> 的分隔线，分隔线要求符合<strong>需求 3</strong></li>
+</ul>
+<blockquote>
+<p>提示：工作中针对需求的变化，应该冷静思考，<strong>不要轻易修改之前已经完成的，能够正常执行的函数</strong>！</p>
+</blockquote>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">print_line</span><span class="token punctuation">(</span>char<span class="token punctuation">,</span> times<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span>char <span class="token operator">*</span> times<span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">print_lines</span><span class="token punctuation">(</span>char<span class="token punctuation">,</span> times<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    row <span class="token operator">=</span> <span class="token number">0</span>
+    
+    <span class="token keyword">while</span> row <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">:</span>
+        print_line<span class="token punctuation">(</span>char<span class="token punctuation">,</span> times<span class="token punctuation">)</span>
+
+        row <span class="token operator">+=</span> <span class="token number">1</span>
+
+</code></pre>
+<h2 id="使用模块中的函数">06. 使用模块中的函数</h2>
+<blockquote>
+<p><strong>模块是 Python 程序架构的一个核心概念</strong></p>
+</blockquote>
+<ul>
+<li><strong>模块</strong> 就好比是 <strong>工具包</strong>，要想使用这个工具包中的工具，就需要 <strong>导入 import</strong> 这个模块</li>
+<li>每一个以扩展名 <code>py</code> 结尾的 <code>Python</code> 源代码文件都是一个 <strong>模块</strong></li>
+<li>在模块中定义的 <strong>全局变量</strong> 、 <strong>函数</strong> 都是模块能够提供给外界直接使用的工具</li>
+</ul>
+<h3 id="第一个模块体验">6.1 第一个模块体验</h3>
+<p><strong>步骤</strong></p>
+<ul>
+<li>新建 <code>hm_10_分隔线模块.py</code>
+<ul>
+<li>复制 <code>hm_09_打印多条分隔线.py</code> 中的内容，<strong>最后一行 <code>print</code> 代码除外</strong></li>
+<li>增加一个字符串变量</li>
+</ul>
+</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python">name <span class="token operator">=</span> <span class="token string">"黑马程序员"</span>
+</code></pre>
+<ul>
+<li>新建 <code>hm_10_体验模块.py</code> 文件，并且编写以下代码：</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">import</span> hm_10_分隔线模块
+
+hm_10_分隔线模块<span class="token punctuation">.</span>print_line<span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">,</span> <span class="token number">80</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>hm_10_分隔线模块<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+</code></pre>
+<h4 id="体验小结">体验小结</h4>
+<ul>
+<li>可以 <strong>在一个 Python 文件</strong> 中 <strong>定义 变量 或者 函数</strong></li>
+<li>然后在 <strong>另外一个文件中</strong> 使用 <code>import</code> 导入这个模块</li>
+<li>导入之后，就可以使用 <code>模块名.变量</code> / <code>模块名.函数</code> 的方式，使用这个模块中定义的变量或者函数</li>
+</ul>
+<blockquote>
+<p><strong>模块</strong>可以让 <strong>曾经编写过的代码</strong> 方便的被 <strong>复用</strong>！</p>
+</blockquote>
+<h3 id="模块名也是一个标识符">6.2 模块名也是一个标识符</h3>
+<ul>
+<li>标示符可以由 <strong>字母</strong>、<strong>下划线</strong> 和 <strong>数字</strong> 组成</li>
+<li><strong>不能以数字开头</strong></li>
+<li><strong>不能与关键字重名</strong></li>
+</ul>
+<blockquote>
+<p>注意：如果在给 Python 文件起名时，<strong>以数字开头</strong> 是无法在 <code>PyCharm</code> 中通过导入这个模块的</p>
+</blockquote>
+<h3 id="pyc-文件（了解）">6.3 Pyc 文件（了解）</h3>
+<blockquote>
+<p><code>C</code> 是 <code>compiled</code> <strong>编译过</strong> 的意思</p>
+</blockquote>
+<p><strong>操作步骤</strong></p>
+<ol>
+<li>浏览程序目录会发现一个 <code>__pycache__</code> 的目录</li>
+<li>目录下会有一个 <code>hm_10_分隔线模块.cpython-35.pyc</code> 文件，<code>cpython-35</code> 表示 <code>Python</code> 解释器的版本</li>
+<li>这个 <code>pyc</code> 文件是由 Python 解释器将 <strong>模块的源码</strong> 转换为 <strong>字节码</strong>
+<ul>
+<li><code>Python</code> 这样保存 <strong>字节码</strong> 是作为一种启动 <strong>速度的优化</strong></li>
+</ul>
+</li>
+</ol>
+<p><strong>字节码</strong></p>
+<ul>
+<li>
+<p><code>Python</code> 在解释源程序时是分成两个步骤的</p>
+<ol>
+<li>首先处理源代码，<strong>编译</strong> 生成一个二进制 <strong>字节码</strong></li>
+<li>再对 <strong>字节码</strong> 进行处理，才会生成 CPU 能够识别的 <strong>机器码</strong></li>
+</ol>
+</li>
+<li>
+<p>有了模块的字节码文件之后，下一次运行程序时，如果在 <strong>上次保存字节码之后</strong> 没有修改过源代码，Python 将会加载 .pyc 文件并跳过编译这个步骤</p>
+</li>
+<li>
+<p>当 <code>Python</code> 重编译时，它会自动检查源文件和字节码文件的时间戳</p>
+</li>
+<li>
+<p>如果你又修改了源代码，下次程序运行时，字节码将自动重新创建</p>
+</li>
+</ul>
+<blockquote>
+<p>提示：有关模块以及模块的其他导入方式，后续课程还会逐渐展开！</p>
+<p><strong>模块是 Python 程序架构的一个核心概念</strong></p>
+</blockquote>
+</div>
+</body>
+
+</html>

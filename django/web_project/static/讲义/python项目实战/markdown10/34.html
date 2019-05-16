@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>碰撞检测.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="碰撞检测">碰撞检测</h1>
+<h2 id="目标">目标</h2>
+<ul>
+<li>了解碰撞检测方法</li>
+<li>碰撞实现</li>
+</ul>
+<h2 id="了解碰撞检测方法">01. 了解碰撞检测方法</h2>
+<ul>
+<li><code>pygame</code> 提供了 <strong>两个非常方便</strong> 的方法可以实现碰撞检测：</li>
+</ul>
+<h3 id="pygame.sprite.groupcollide">pygame.sprite.groupcollide()</h3>
+<ul>
+<li><strong>两个精灵组</strong> 中 <strong>所有的精灵</strong> 的碰撞检测</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python">groupcollide<span class="token punctuation">(</span>group1<span class="token punctuation">,</span> group2<span class="token punctuation">,</span> dokill1<span class="token punctuation">,</span> dokill2<span class="token punctuation">,</span> collided <span class="token operator">=</span> <span class="token boolean">None</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Sprite_dict
+</code></pre>
+<ul>
+<li>如果将 <code>dokill</code> 设置为 <code>True</code>，则 <strong>发生碰撞的精灵将被自动移除</strong></li>
+<li><code>collided</code> 参数是用于 <strong>计算碰撞的回调函数</strong>
+<ul>
+<li>如果没有指定，则每个精灵必须有一个 <code>rect</code> 属性</li>
+</ul>
+</li>
+</ul>
+<h3 id="pygame.sprite.spritecollide">pygame.sprite.spritecollide()</h3>
+<ul>
+<li>判断 <strong>某个精灵</strong> 和 <strong>指定精灵组</strong> 中的精灵的碰撞</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python">spritecollide<span class="token punctuation">(</span>sprite<span class="token punctuation">,</span> group<span class="token punctuation">,</span> dokill<span class="token punctuation">,</span> collided <span class="token operator">=</span> <span class="token boolean">None</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> Sprite_list
+</code></pre>
+<ul>
+<li>如果将 <code>dokill</code> 设置为 <code>True</code>，则 <strong>指定精灵组</strong> 中 <strong>发生碰撞的精灵将被自动移除</strong></li>
+<li><code>collided</code> 参数是用于 <strong>计算碰撞的回调函数</strong>
+<ul>
+<li>如果没有指定，则每个精灵必须有一个 <code>rect</code> 属性</li>
+</ul>
+</li>
+<li>返回 <strong>精灵组</strong> 中跟 <strong>精灵</strong> 发生碰撞的 <strong>精灵列表</strong></li>
+</ul>
+<h2 id="碰撞实现">02. 碰撞实现</h2>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">__check_collide</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token comment"># 1. 子弹摧毁敌机</span>
+    pygame<span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>groupcollide<span class="token punctuation">(</span>self<span class="token punctuation">.</span>hero<span class="token punctuation">.</span>bullets<span class="token punctuation">,</span> self<span class="token punctuation">.</span>enemy_group<span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. 敌机撞毁英雄</span>
+    enemies <span class="token operator">=</span> pygame<span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>spritecollide<span class="token punctuation">(</span>self<span class="token punctuation">.</span>hero<span class="token punctuation">,</span> self<span class="token punctuation">.</span>enemy_group<span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 判断列表时候有内容</span>
+    <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>enemies<span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">:</span>
+    
+        <span class="token comment"># 让英雄牺牲</span>
+        self<span class="token punctuation">.</span>hero<span class="token punctuation">.</span>kill<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 结束游戏</span>
+        PlaneGame<span class="token punctuation">.</span>__game_over<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div>
+</body>
+
+</html>

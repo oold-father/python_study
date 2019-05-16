@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+ <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+<div class="content">
+    <div id="header">
+        <div class="header left">111</div>
+        <div class="header right">
+            <nav>
+                <ul class="nav">
+                    <li><a href="">关于我们</a></li>
+                    <li><a href="/register/">注册</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<div style="clear: both"></div>
+<div id="login">
+     <form action="" method="post">
+{#            <input type="text" placeholder="用户名" name="userid"><br>#}
+{#            <input type="password" placeholder="密码" name="passwd"><br>#}
+{#            <input type="submit" value="登录" style="background-color: #19c880;color: white">#}
+         {% csrf_token %}
+            {{ log.as_p }}
+            <input type="submit" value="登录" class="submit" style="background-color: #19c880;color: white">
+     </form>
+    <div class="msg">{{ msg }}</div>
+</div>
+</body>
+</html>

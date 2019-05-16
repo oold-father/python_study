@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>游戏背景.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="游戏背景">游戏背景</h1>
+<h2 id="目标">目标</h2>
+<ul>
+<li>背景交替滚动的思路确定</li>
+<li>显示游戏背景</li>
+</ul>
+<h2 id="背景交替滚动的思路确定">01. 背景交替滚动的思路确定</h2>
+<p>运行 <strong>备课代码</strong>，<strong>观察</strong> 背景图像的显示效果：</p>
+<ul>
+<li>游戏启动后，<strong>背景图像</strong> 会 <strong>连续不断地</strong> <strong>向下方</strong> 移动</li>
+<li>在 <strong>视觉上</strong> 产生英雄的飞机不断向上方飞行的 <strong>错觉</strong> —— 在很多跑酷类游戏中常用的套路
+<ul>
+<li><strong>游戏的背景</strong> 不断变化</li>
+<li><strong>游戏的主角</strong> 位置保持不变</li>
+</ul>
+</li>
+</ul>
+<h3 id="实现思路分析">1.1 实现思路分析</h3>
+<p><img src="media/15025262948537/013_%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E4%BA%A4%E6%9B%BF%E6%BB%9A%E5%8A%A8.png" alt="013_背景图片交替滚动-w640"></p>
+<p><strong>解决办法</strong></p>
+<ol>
+<li>创建两张背景图像精灵
+<ul>
+<li>第 <code>1</code> 张 <strong>完全和屏幕重合</strong></li>
+<li>第 <code>2</code> 张在 <strong>屏幕的正上方</strong></li>
+</ul>
+</li>
+<li>两张图像 <strong>一起向下方运动</strong>
+<ul>
+<li><code>self.rect.y += self.speed</code></li>
+</ul>
+</li>
+<li>当 <strong>任意背景精灵</strong> 的 <code>rect.y &gt;= 屏幕的高度</code> 说明已经 <strong>移动到屏幕下方</strong></li>
+<li>将 <strong>移动到屏幕下方的这张图像</strong> 设置到 <strong>屏幕的正上方</strong>
+<ul>
+<li><code>rect.y = -rect.height</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="设计背景类">1.2 设计背景类</h3>
+<p><img src="media/15025262948537/012_%E6%B4%BE%E7%94%9FBackground%E5%AD%90%E7%B1%BB.png" alt="012_派生Background子类-w398"></p>
+<ul>
+<li><strong>初始化方法</strong>
+<ul>
+<li>直接指定 <strong>背景图片</strong></li>
+<li><code>is_alt</code> 判断是否是另一张图像
+<ul>
+<li><code>False</code> 表示 <strong>第一张图像</strong>，需要与屏幕重合</li>
+<li><code>True</code> 表示 <strong>另一张图像</strong>，在屏幕的正上方</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>update()</strong> 方法
+<ul>
+<li>判断 <strong>是否移动出屏幕</strong>，如果是，将图像设置到 <strong>屏幕的正上方</strong>，从而实现 <strong>交替滚动</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>继承</strong> 如果父类提供的方法，不能满足子类的需求：</p>
+<ul>
+<li>派生一个子类</li>
+<li>在子类中针对特有的需求，重写父类方法，并且进行扩展</li>
+</ul>
+</blockquote>
+<h2 id="显示游戏背景">02. 显示游戏背景</h2>
+<h3 id="背景精灵的基本实现">2.1 背景精灵的基本实现</h3>
+<ul>
+<li>在 <code>plane_sprites</code> 新建 <code>Background</code> 继承自 <code>GameSprite</code></li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Background</span><span class="token punctuation">(</span>GameSprite<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""游戏背景精灵"""</span>
+
+    <span class="token keyword">def</span> <span class="token function">update</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+        <span class="token comment"># 1. 调用父类的方法实现</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        <span class="token comment"># 2. 判断是否移出屏幕，如果移出屏幕，将图像设置到屏幕的上方</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>rect<span class="token punctuation">.</span>y <span class="token operator">&gt;=</span> SCREEN_RECT<span class="token punctuation">.</span>height<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>rect<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token operator">-</span>self<span class="token punctuation">.</span>rect<span class="token punctuation">.</span>height
+
+</code></pre>
+<h3 id="在-plane_main.py-中显示背景精灵">2.2 在 <code>plane_main.py</code> 中显示背景精灵</h3>
+<ol>
+<li>在 <code>__create_sprites</code> 方法中创建 <strong>精灵</strong> 和 <strong>精灵组</strong></li>
+<li>在 <code>__update_sprites</code> 方法中，让 <strong>精灵组</strong> 调用 <code>update()</code> 和 <code>draw()</code> 方法</li>
+</ol>
+<blockquote>
+<p><code>__create_sprites</code> 方法</p>
+</blockquote>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">__create_sprites</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token comment"># 创建背景精灵和精灵组</span>
+    bg1 <span class="token operator">=</span> Background<span class="token punctuation">(</span><span class="token string">"./images/background.png"</span><span class="token punctuation">)</span>
+    bg2 <span class="token operator">=</span> Background<span class="token punctuation">(</span><span class="token string">"./images/background.png"</span><span class="token punctuation">)</span>
+    bg2<span class="token punctuation">.</span>rect<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token operator">-</span>bg2<span class="token punctuation">.</span>rect<span class="token punctuation">.</span>height
+    
+    self<span class="token punctuation">.</span>back_group <span class="token operator">=</span> pygame<span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>Group<span class="token punctuation">(</span>bg1<span class="token punctuation">,</span> bg2<span class="token punctuation">)</span>
+</code></pre>
+<blockquote>
+<p><code>__update_sprites</code> 方法</p>
+</blockquote>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">__update_sprites</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    self<span class="token punctuation">.</span>back_group<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    self<span class="token punctuation">.</span>back_group<span class="token punctuation">.</span>draw<span class="token punctuation">(</span>self<span class="token punctuation">.</span>screen<span class="token punctuation">)</span>
+</code></pre>
+<h3 id="利用初始化方法，简化背景精灵创建">2.3 利用初始化方法，简化背景精灵创建</h3>
+<blockquote>
+<p>思考 —— 上一小结完成的代码存在什么样的问题？能否简化？</p>
+</blockquote>
+<ul>
+<li>在主程序中，创建的<strong>两个背景精灵</strong>，<strong>传入了相同的图像文件路径</strong></li>
+<li>创建 <strong>第二个 背景精灵</strong> 时，<strong>在主程序中</strong>，设置背景精灵的图像位置</li>
+</ul>
+<blockquote>
+<p>思考 —— 精灵 <strong>初始位置</strong> 的设置，应该 <strong>由主程序负责</strong>？还是 <strong>由精灵自己负责</strong>？</p>
+</blockquote>
+<p><strong>答案</strong> —— <strong>由精灵自己负责</strong></p>
+<ul>
+<li>根据面向对象设计原则，应该将对象的职责，封装到类的代码内部</li>
+<li>尽量简化程序调用一方的代码调用</li>
+</ul>
+<p><img src="media/15025262948537/012_%E6%B4%BE%E7%94%9FBackground%E5%AD%90%E7%B1%BB.png" alt="012_派生Background子类-w398"></p>
+<ul>
+<li><strong>初始化方法</strong>
+<ul>
+<li>直接指定 <strong>背景图片</strong></li>
+<li><code>is_alt</code> 判断是否是另一张图像
+<ul>
+<li><code>False</code> 表示 <strong>第一张图像</strong>，需要与屏幕重合</li>
+<li><code>True</code> 表示 <strong>另一张图像</strong>，在屏幕的正上方</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>在 <code>plane_sprites.py</code> 中实现 <code>Background</code> 的 <strong>初始化方法</strong></p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> is_alt<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    image_name <span class="token operator">=</span> <span class="token string">"./images/background.png"</span>
+    <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span>image_name<span class="token punctuation">)</span>
+       
+    <span class="token comment"># 判断是否交替图片，如果是，将图片设置到屏幕顶部</span>
+    <span class="token keyword">if</span> is_alt<span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>rect<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token operator">-</span>self<span class="token punctuation">.</span>rect<span class="token punctuation">.</span>height     
+</code></pre>
+<ul>
+<li>修改 <code>plane_main</code> 的 <code>__create_sprites</code> 方法</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># 创建背景精灵和精灵组</span>
+bg1 <span class="token operator">=</span> Background<span class="token punctuation">(</span><span class="token punctuation">)</span>
+bg2 <span class="token operator">=</span> Background<span class="token punctuation">(</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+self<span class="token punctuation">.</span>back_group <span class="token operator">=</span> pygame<span class="token punctuation">.</span>sprite<span class="token punctuation">.</span>Group<span class="token punctuation">(</span>bg1<span class="token punctuation">,</span> bg2<span class="token punctuation">)</span>
+</code></pre>
+</div>
+</body>
+
+</html>

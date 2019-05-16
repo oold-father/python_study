@@ -1,0 +1,81 @@
+body{
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ebebeb;
+}
+.content{
+    width: 100%;
+    height: 258px;
+    background: url("../img/courses-header.jpg") no-repeat center;
+    padding: 0;
+}
+#header{
+    width: 100%;
+    height: 60px;
+    background: rgba(255,255,255,.1);
+
+}
+.header.left{
+    float: left;
+    width: 20%;
+    height: 100%;
+    margin: 0 auto;
+    line-height: 60px;
+    text-align: center;
+}
+.header.right{
+    float: right;
+    width: auto;
+    height: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+.nav li{
+    list-style: none;
+    color: white;
+    float: left;
+    margin-right: 20px;
+
+}
+.nav li a{
+    color: white;
+    display: block;
+    text-decoration: none;
+}
+#register{
+    width: 80%;
+    height: 400px;
+    margin: 0 auto;
+}
+.register.left{
+    width: 60%;
+    height: 100%;
+    float: left;
+}
+.register.right{
+    width: 40%;
+    height: 100%;
+    float: left;
+    /*background-color: darkcyan;*/
+}
+input{
+    position: relative;
+    margin-left: 100px;
+    width: 50%;
+    height: 40px;
+    margin-top: 10px;
+    background-color: #f7f7f7;
+    top: 30px;
+    border: 1px solid #ebebeb;
+    font-size: 18px;
+}
+.msg{
+    height: 40px;
+    width: 50%;
+    margin-top: 50px;
+    margin-left: 100px;
+    line-height: 40px;
+    text-align: center;
+}

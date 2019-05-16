@@ -1,0 +1,130 @@
+body{
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+}
+#header{
+    width: 100%;
+    height: 60px;
+    background:#19c880;
+
+}
+.header.left{
+    float: left;
+    width: 20%;
+    height: 100%;
+    margin: 0 auto;
+    line-height: 60px;
+    text-align: center;
+    border-right: 1px solid white;
+}
+.header.right{
+    float: right;
+    width: auto;
+    height: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+.nav li{
+    list-style: none;
+    color: white;
+    float: left;
+    margin-right: 20px;
+
+}
+.nav li a{
+    color: white;
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 5px 10px;
+}
+.nav li a:hover{
+    background-color: white;
+    color: #19c880;
+}
+.box{
+    width: 90%;
+    margin: 0 auto;
+}
+.box.left{
+    width: 20%;
+    height: 600px;
+    float: left;
+    background-color:#ebebeb;
+}
+.box.left.top{
+    width: 100%;
+    height: 300px;
+}
+.box.left.bottom{
+    width: 100%;
+    height: 300px;
+}
+.box.right{
+    width: 80%;
+    height: 600px;
+    float: left;
+}
+.box.right.top{
+    width: 100%;
+    height: 500px;
+}
+.code{
+    width: 45%;
+    height: 500px;
+    float: left;
+    background-color: green;
+}
+.result{
+    width: 45%;
+    height: 500px;
+    float: left;
+    background-color: #ebebeb;
+}
+.run_submit{
+    width: 10%;
+    height: 500px;
+    float: right;
+}
+.run{
+    width: 100%;
+    height: 250px;
+    background-color: deepskyblue;
+}
+.submit{
+    width: 100%;
+    height: 250px;
+    background-color: #19c880;
+}
+.box.right.bottom{
+    width: 100%;
+    height: 100px;
+    background-color: red;
+}
+.textarea{
+    width: 100%;
+    height: 500px;
+    border: none;
+    font-size: 15px;
+    padding: 5px;
+    font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
+}
+input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #19c880;
+    border-bottom: 1px solid white;
+}
+.test_iframe_result{
+    width: 100%;
+    height: 100%;
+}
+.footer{
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    background-color: deepskyblue;
+}

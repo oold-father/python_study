@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProblemInfo</title>
+    <link rel="stylesheet" href="{% static 'css/probleminfo.css' %}">
+</head>
+<body>
+<div id="header">
+    <div class="header left">{{ userid }}</div>
+    <div class="header right">
+        <nav>
+                <ul class="nav">
+                    <li><a href="/home/">首页</a></li>
+                    <li><a href="">推荐</a></li>
+                    <li><a href="/learn/">学习</a></li>
+                    <li><a href="/note/">讲义</a></li>
+                    <li><a href="/problem/">题库</a></li>
+                    <li ><a href="/total/">统计</a></li>
+                    <li ><a href="">反馈</a></li>
+                    <li><a href="">关于我们</a></li>
+                    <li ><a href="/logout/" class="last">注销</a></li>
+                </ul>
+            </nav>
+    </div>
+</div>
+<div class="box">
+    <div class="box left">
+        <div class="box left top">{{ pro.problem_text }}</div>
+        <div class="box left bottom">题目描述</div>
+    </div>
+    <div class="box right">
+        <div class="box right top">
+            <div class="code">
+                <form method="post" id="big" action="" target="iframe" >
+                <textarea name="textarea" class="textarea" autofocus placeholder="python代码..." ></textarea>
+                </form>
+            </div>
+            <div class="result">
+                <iframe name="iframe" src=""  class="test_iframe_result"  frameborder="0"  id="test_iframe" onload="setIframeHeight(this) "></iframe>
+            </div>
+            <div class="run_submit">
+                <div class="run">
+                    <input type="submit" form="big" name="run" value="运行" >
+                </div>
+                <div class="submit">
+                    <input type="submit" form="big" name="submit" value="提交" >
+                </div>
+            </div>
+        </div>
+        <div class="box right bottom">
+
+        </div>
+    </div>
+</div>
+<div style="clear: both"></div>
+<div class="footer">5</div>
+</body>
+{#<script type='text/javascript' src="{% static 'js/iframe.js' %}"></script>#}
+</html>

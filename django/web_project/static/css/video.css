@@ -1,0 +1,24 @@
+body{
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+}
+.main{
+    width: 80%;
+    margin: 50px auto 0 auto;
+}
+.return{
+    float: left;
+}
+.finish{
+    float: right;
+}
+.video{
+    margin: 0 auto;
+    width: 100%;
+}
+.ppt{
+    margin: 0 auto;
+    width: 100%;
+}

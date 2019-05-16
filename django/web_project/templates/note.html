@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Note</title>
+    <link rel="stylesheet" href="../static/css/note.css">
+</head>
+<body>
+<div id="header">
+    <div class="header left">{{ userid }}</div>
+    <div class="header right">
+        <nav>
+                <ul class="nav">
+                    <li><a href="/home/">首页</a></li>
+                    <li><a href="">推荐</a></li>
+                    <li><a href="/learn/">学习</a></li>
+                    <li><a href="/note/">讲义</a></li>
+                    <li><a href="/problem/">题库</a></li>
+                    <li ><a href="/total/">统计</a></li>
+                    <li ><a href="">反馈</a></li>
+                    <li><a href="">关于我们</a></li>
+                    <li ><a href="/logout/" class="last">注销</a></li>
+                </ul>
+            </nav>
+    </div>
+</div>
+<div id="center">
+    <div class="center left">
+        <div class="level_div" id="level1">
+            <div class="level" onclick="open_down(this)"><span>{{ L1.level_name }}</span></div>
+{#            href里面就填视图函数里面传回来的地址#}
+             {% for c in level_1 %}
+                <div id="n-list" class="n-list" style="display: none" ><a  href="{{ c.url }}" target="iframe"><span>{{ c.id }}.{{ c.title }}</span></a></div>
+             {% endfor %}
+        </div>
+        <div class="level_div" id="level2">
+             <div class="level" onclick="open_down(this)"><span>{{ L2.level_name }}</span></div>
+             {% for c in level_2 %}
+                <div id="n-list" class="n-list" style="display: none" ><a  href="{{ c.url }}" target="iframe"><span>{{ c.id }}.{{ c.title }}</span></a></div>
+            {% endfor %}
+        </div>
+        <div class="level_div" id="level3">
+             <div class="level" onclick="open_down(this)" ><span>{{ L3.level_name }}</span></div>
+            {% for c in level_3 %}
+                <div id="n-list" class="n-list" style="display: none" ><a  href="{{ c.url }}" target="iframe"><span>{{ c.id }}.{{ c.title }}</span></a></div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="center right">
+                <iframe name="iframe" src="" frameborder="0" scrolling="no" id="test_iframe"   onload="setIframeHeight(this)" width="100%"  ></iframe>
+
+    </div>
+</div>
+{#<div style="clear: both"></div>#}
+{#<div class="footer">5</div>#}
+</body>
+<script type='text/javascript' src="{% static 'js/display.js' %}"></script>
+<script type='text/javascript' src="{% static 'js/iframe.js' %}"></script>
+</html>

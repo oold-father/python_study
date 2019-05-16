@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body style="padding: 0">
+<div class="index">
+    <div id="header">
+        <div class="header left">四川大学锦城学院</div>
+        <div class="header right">
+            <nav>
+                <ul class="nav">
+                    <li><a href="">关于我们</a></li>
+                    <li><a href="/register/">注册</a></li>
+                    <li><a href="/login/">登录</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="box">Python在线学习推荐系统</div>
+</div>
+<div class="content">
+    <div class="one">
+        <div class="one left">视频学习展示</div>
+        <div class="one right" style="background: url({% static 'img/视频.png'%}) no-repeat center"></div>
+    </div>
+    <div class="one">
+        <div class="one left">教程展示</div>
+        <div class="one right" style="background: url({% static 'img/教程.png'%}) no-repeat center"></div>
+    </div>
+    <div class="one">
+        <div class="one left">推荐列表</div>
+        <div class="one right" style="background: url({% static 'img/教程.png'%}) no-repeat center"></div>
+    </div>
+    <div class="one">
+        <div class="one left">用户信息</div>
+        <div class="one right" style="background: url({% static 'img/用户信息.png'%}) no-repeat center"></div>
+    </div>
+</div>
+<div class="footer">5</div>
+
+</body>
+</html>
